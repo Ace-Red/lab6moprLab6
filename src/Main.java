@@ -26,7 +26,9 @@ public class Main {
     public static void main(String[] args) {
         System.out.println("Початкова матриця:");
         showMatrix(matrix);
-        multiplyColumnToElementWeight(method1());
+        double[][] matrixWithWeights = multiplyColumnToElementWeight(method1());
+        findPositiveIdealPoint(matrixWithWeights);
+        findNegativeIdealPoint(matrixWithWeights);
     }
     public static double[][] method1(){
         System.out.println("Обчислення нормалізованих оцінок альтернатив:");
@@ -56,12 +58,18 @@ public class Main {
         }
     }
     public static void showMatrix(double[][] matrix){
-        for (double[] floats : matrix) {
+        for (double[] doubles : matrix) {
             for (int j = 0; j < matrix[0].length; j++) {
-                System.out.print(String.format("%.2f",floats[j]) + " ");
+                System.out.print(String.format("%.2f",doubles[j]) + " ");
             }
             System.out.println();
         }
+    }
+    public static void showArray(double[] array){
+        for (double valuation : array) {
+            System.out.print(String.format("%.2f", valuation) + " ");
+        }
+        System.out.println();
     }
     public static double[][] multiplyColumnToElementWeight(double[][] matrix){
         System.out.println("Обчислення зважених нормалізованих оцінок");
@@ -73,5 +81,39 @@ public class Main {
         }
         showMatrix(newMatrix);
         return newMatrix;
+    }
+
+    public static double[] findPositiveIdealPoint(double[][] matrixWithWeights) {
+        System.out.println("Обчислення позитивної ідеальної точки");
+        double max = 0;
+        double[] positiveIdealPoint = new double[matrixWithWeights[0].length];
+        for (int i = 0; i < matrixWithWeights[0].length; i++) {
+            max = matrixWithWeights[0][i];
+            for (int j = 0; j < matrixWithWeights.length; j++) {
+                if (matrixWithWeights[j][i] > max) {
+                    max = matrixWithWeights[j][i];
+                }
+            }
+            positiveIdealPoint[i] = max;
+        }
+        showArray(positiveIdealPoint);
+        return positiveIdealPoint;
+    }
+
+    public static double[] findNegativeIdealPoint(double[][] matrixWithWeights) {
+        System.out.println("Обчислення негативної ідеальної точки");
+        double min = 0;
+        double[] negativeIdealPoint = new double[matrixWithWeights[0].length];
+        for (int i = 0; i < matrixWithWeights[0].length; i++) {
+            min = matrixWithWeights[0][i];
+            for (int j = 0; j < matrixWithWeights.length; j++) {
+                if (matrixWithWeights[j][i] < min) {
+                    min = matrixWithWeights[j][i];
+                }
+            }
+            negativeIdealPoint[i] = min;
+        }
+        showArray(negativeIdealPoint);
+        return negativeIdealPoint;
     }
 }
